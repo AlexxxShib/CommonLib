@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import com.mobiray.commonlib.database.CommonSQLite;
+import com.mobiray.commonlib.database.CommonAppAdStorage;
 import com.mobiray.commonlib.model.AppAd;
 import com.mobiray.commonlib.servises.events.EventMessage;
 import com.mobiray.commonlib.servises.views.AppAdView;
@@ -61,24 +61,24 @@ public class AdService extends IntentService {
     }
 
     private void updateAdApps() {
-        CommonSQLite.isAppAdsUpdating = true;
+        CommonAppAdStorage.isAppAdsUpdating = true;
         Call<List<AppAdView>> adInfoCall = mobirayService.getAdAppsList(getPackageName());
         List<AppAdView> adInfoList;
         try {
             adInfoList = adInfoCall.execute().body();
         } catch (Exception e) {
             e.printStackTrace();
-            CommonSQLite.isAppAdsUpdating = false;
+            CommonAppAdStorage.isAppAdsUpdating = false;
             return;
         }
 
         List<AppAd> appAds = downloadIcons(adInfoList);
         if (appAds.isEmpty()) {
-            CommonSQLite.isAppAdsUpdating = false;
+            CommonAppAdStorage.isAppAdsUpdating = false;
             return;
         }
 
-        CommonSQLite.getInstance().insertOrUpdateAdApps(appAds);
+        CommonAppAdStorage.getInstance().insertOrUpdateAdApps(getApplicationContext(), appAds);
         EventBus.getDefault().post(new EventMessage(EventMessage.CODE_AD_APPS_UPDATED));
     }
 

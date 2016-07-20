@@ -2,6 +2,7 @@ package com.mobiray.commonlibtestapp;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +45,7 @@ public class MainActivity extends CommonActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         StringBuilder stringBuilder = new StringBuilder();
 
+        Log.i("TAG_MainActivity", "" + appAds.size());
         for (AppAd appAd : appAds) {
             stringBuilder.append(appAd.name).append("\n");
 
