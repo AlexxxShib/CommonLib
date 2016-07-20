@@ -1,7 +1,6 @@
 package com.mobiray.commonlibtestapp;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,7 +11,7 @@ import com.mobiray.commonlib.database.CommonSQLite;
 import com.mobiray.commonlib.model.AppAd;
 import com.mobiray.commonlib.view.CommonActivity;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.util.List;
 
 public class MainActivity extends CommonActivity {
@@ -48,14 +47,17 @@ public class MainActivity extends CommonActivity {
         for (AppAd appAd : appAds) {
             stringBuilder.append(appAd.name).append("\n");
 
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream(openFileInput(appAd.imagePath));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            File file = getFileStreamPath(appAd.imagePath);
+            Uri uri = Uri.fromFile(file);
+//            Bitmap bitmap = null;
+//            try {
+//                bitmap = BitmapFactory.decodeStream(openFileInput(appAd.imagePath));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
             ImageView imageView = new ImageView(this);
-            imageView.setImageBitmap(bitmap);
+//            imageView.setImageBitmap(bitmap);
+            imageView.setImageURI(uri);
             root.addView(imageView, layoutParams);
 
         }

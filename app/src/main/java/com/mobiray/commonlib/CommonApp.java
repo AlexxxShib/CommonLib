@@ -10,7 +10,7 @@ import com.mobiray.commonlib.servises.AdService;
  */
 public class CommonApp extends Application {
 
-    private static CommonApp instance;
+    private static Context instance;
 
     @Override
     public void onCreate() {
@@ -18,6 +18,10 @@ public class CommonApp extends Application {
         instance = this;
 
         AdService.startActionUpdateAdApps(this);
+    }
+
+    public static void setCustomContext(Context context) {
+        instance = context;
     }
 
     public static Context getContext() {
